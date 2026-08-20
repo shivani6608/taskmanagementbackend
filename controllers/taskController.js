@@ -147,7 +147,7 @@ const createTask = async (req, res, next) => {
     });
 
     // Fire-and-forget side effect — never block the response on it
-    await sendTaskCreatedEmail(req.user, task);
+    sendTaskCreatedEmail(req.user, task);
 
     res.status(201).json(task.toObject());
   } catch (error) {
@@ -190,7 +190,7 @@ const updateTask = async (req, res, next) => {
     await task.save();
 
     if (wasNotDone && task.status === 'DONE') {
-     await sendTaskCompletedEmail(req.user, task);
+       sendTaskCompletedEmail(req.user, task);
     }
 
     res.json(task.toObject());
