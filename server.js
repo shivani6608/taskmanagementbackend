@@ -22,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
+app.use('/api', emailRoutes);
 app.use(notFound);
 app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
