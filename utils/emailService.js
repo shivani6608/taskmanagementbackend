@@ -45,3 +45,45 @@ const sendMail = async ({ to, subject, html }) => {
     throw error;
   }
 };
+const sendTaskCreatedEmail = async (user, task) => {
+  if (!user?.email) {
+    console.log("No user email found. Skipping task created email.");
+    return;
+  }
+
+  return sendMail({
+    to: user.email,
+    subject: `Task Created: ${task.title}`,
+    html: `
+      <h2>Task Created Successfully</h2>
+      <p>Hello ${user.name || "User"},</p>
+      <p>Your task has been created successfully.</p>
+      <p><strong>Task:</strong> ${task.title}</p>
+      <p><strong>Status:</strong> ${task.status || "TODO"}</p>
+      <p><strong>Priority:</strong> ${task.priority || "MEDIUM"}</p>
+    `,
+  });
+};
+
+const sendTaskCompletedEmail = async (user, task) => {
+  if (!user?.email) {
+    console.log("No user email found. Skipping task completed email.");
+    return;
+  }
+
+  return sendMail({
+    to: user.email,
+    subject: `Task Completed: ${task.title}`,
+    html: `
+      <h2>Task Completed</h2>
+      <p>Hello ${user.name || "User"},</p>
+      <p>Your task "${task.title}" has been completed.</p>
+    `,
+  });
+};
+
+module.exports = {
+  sendMail,
+  sendTaskCreatedEmail,
+  sendTaskCompletedEmail,
+};
